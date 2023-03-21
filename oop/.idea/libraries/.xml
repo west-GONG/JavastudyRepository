@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="课代">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/课代/AddressBookSystem.zip!/" />
+      <root url="jar://$PROJECT_DIR$/课代/课程设计.zip!/" />
+      <root url="jar://$PROJECT_DIR$/课代/homeworks5.zip!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

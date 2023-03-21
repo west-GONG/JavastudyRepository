@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="castle">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/课代/课程设计/课程设计/castle.zip!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
