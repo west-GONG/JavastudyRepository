@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="gyr.study.ssm.mapper.AccountMapper">
+    <select id="selectAll" resultType="account">
+      select * from account
+    </select>
+
+    <select id="selectByName" resultType="account">
+       select * from account
+       <where>
+           <if test="name != null and name != ''">
+               name = #{name}
+           </if>
+           or 1 != 1
+       </where>
+    </select>
+
+    <select id="selectByIdName" resultType="account">
+        select * from account
+        <where>
+            <if test="name != null and name != ''">
+                and name = #{name}
+                <!--and会被去掉 -->
+            </if>
+            <if test="id != null and id > 0">
+                and id = #{id}
+            </if>
+            or 1 != 1
+        </where>
+    </select>
+</mapper>

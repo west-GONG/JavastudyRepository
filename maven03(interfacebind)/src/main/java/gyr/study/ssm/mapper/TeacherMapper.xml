@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="gyr.study.ssm.mapper.TeacherMapper">
+
+    <cache readOnly="true"/>
+
+    <select id="selectAll" resultType="gyr.study.ssm.pojo.Teacher">
+      select * from teacher
+    </select>
+
+    <sql id="teacherColumn">
+        t_id , t_name
+    </sql>
+
+    <resultMap id="teacherMap" type="teacher">
+        <id column="t_id" property="id"/>
+        <result column="t_name" property="name"/>
+    </resultMap>
+<!-- 只有一个参数，并且是基本参数，可以省略不写-->
+    <select id="selectByName" parameterType="string" resultMap="teacherMap">
+        select
+        <include refid="teacherColumn"></include>
+        from teacher where t_name=#{name}
+    </select>
+<!--如果是引用类型，需要进行参数名自动映射，映射错误就会出错-->
+    <select id="selectByTeacher" resultType="gyr.study.ssm.pojo.Teacher">
+        select * from teacher where id = #{id} and name = #{name}t
+    </select>
+<!--    map中的key要对应select语句中参数的名字-->
+    <select id="selectByMap" resultType="gyr.study.ssm.pojo.Teacher">
+        select * from teacher where id = #{id} and name = #{name}
+    </select>
+
+    <select id="selectByCondition" resultType="gyr.study.ssm.pojo.Teacher">
+        select * from teacher where id = #{0} and name = #{1}
+    </select>
+
+    <select id="selectByCondition2" resultType="gyr.study.ssm.pojo.Teacher">
+        select * from teacher where id = #{0} and name = #{1}
+    </select>
+
+    <select id="selectByCondition3" resultType="gyr.study.ssm.pojo.Teacher">
+        select * from teacher where 1=1
+        <if test="id != null and id > 0">
+            and id = #{id}
+        </if>
+
+        <if test="name != null and name != ''">
+            and name = #{name}
+        </if>
+    </select>
+
+    <select id="selectByIdName" resultType="teacher">
+        select * from teacher
+        <where>
+            <choose>
+                <when test="id != null and id >0">
+                    and id = #{id}
+                </when>
+                <when test="name != null and name !=''">
+                    and name = #{name}
+                </when>
+                <otherwise>
+                    1 != 1
+                </otherwise>
+            </choose>
+        </where>
+    </select>
+
+    <insert id="insertTeacher" parameterType="teacher">
+        insert into teacher values(#{id},#{name})
+    </insert>
+
+    <update id="updateTeacher" parameterType="teacher">
+        update teacher
+        <set>
+            id = #{id},
+            <if test="name != null and name !=''">
+                name =#{name}
+            </if>
+        </set>
+        <where>
+            <if test="id != null and id > 0">
+                id =#{id}
+            </if>
+            or id = 0
+        </where>
+    </update>
+
+    <update id="updateById" parameterType="teacher">
+        update teacher
+        <trim prefix="set" prefixOverrides="," suffixOverrides=",">
+            ,name =#{name},
+        </trim>
+        <where>
+            id = #{id}
+        </where>
+    </update>
+
+    <select id="selectByName1" resultType="teacher">
+        <bind name="name" value="'%'+name+'%'"/>
+        select * from teacher
+        where
+        <!--name = #{% + name + %} -->
+        <!--name like concat ('%' , #{name} , '%') -->
+        name like #{name}
+    </select>
+
+    <select id="selectBySet" parameterType="List" resultType="teacher">
+        select * from teacher
+        <where>
+            id in
+          <if test="list != null">
+            <foreach collection="list" open="(" close=")" separator="," item="id">
+                #{id}
+            </foreach>
+          </if>
+          <if test="list == null">
+              (0)
+          </if>
+        </where>
+    </select>
+
+
+    <select id="selectBySet1"  parameterType="integer" resultType="teacher">
+        select * from teacher
+        <where>
+            id in
+            <if test="array != null">
+                <foreach collection="array" open="(" close=")" separator="," item="id">
+                    #{id}
+                </foreach>
+            </if>
+            <if test="array == null">
+                (0)
+            </if>
+        </where>
+    </select>
+
+</mapper>
